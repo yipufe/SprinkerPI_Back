@@ -1,0 +1,26 @@
+{
+  "name": "wetter-maker-back",
+  "version": "1.0.0",
+  "description": "Sprinkler controller for raspberry pi",
+  "main": "index.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "fs": "^0.0.1-security",
+    "moment": "^2.29.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yipufe/SprinkerPI_Back.git"
+  },
+  "author": "Ryan Manwill",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yipufe/SprinkerPI_Back/issues"
+  },
+  "homepage": "https://github.com/yipufe/SprinkerPI_Back#readme"
+}
