@@ -1,8 +1,32 @@
 let express = require('express')
 let fs = require('fs')
 let cors = require('cors')
+let gpio = require('onoff').Gpio
 var moment = require('moment'); // require
 moment().format(); 
+
+const gpioMapping = {"stations": [
+	{"pin": 17, "station": 1},
+	{"pin": 18, "station": 2},
+	{"pin": 27, "station": 3},
+	{"pin": 22, "station": 4},
+	{"pin": 23, "station": 5},
+	{"pin": 24, "station": 6},
+	{"pin": 25, "station": 7},
+	{"pin": 4, "station": 8}
+]}
+
+let stations = []
+gpioMapping.stations.forEach((station)=>{
+	stations.push({
+		station: station.station,
+		gpioPin: new gpio(station.pin, 'out'),
+	})
+})
+function writeStation(stationIndex, value) {
+	stations[stationIndex].gpioPin.writeSync(value)
+}
+
 
 const app = express()
 const port = 3000
@@ -103,7 +127,8 @@ function stationOn(stationIndex) {
             console.log("Station "+(stationIndex+1)+" On")
             stationStates[stationIndex] = true
             workingSchedule['station'+(stationIndex+1)].on = true
-            saveScheduleFile()
+            writeStation(stationIndex, 1)
+	    saveScheduleFile()
         }, timeGapBetweenFirings*stationsOn++)
         return true
     }
@@ -113,7 +138,8 @@ function stationOff(stationIndex) {
         console.log("Station "+(stationIndex+1)+" Off")
         stationStates[stationIndex] = false
         workingSchedule['station'+(stationIndex+1)].on = false
-        saveScheduleFile()
+	writeStation(stationIndex, 0)        
+	saveScheduleFile()
         stationsOn--
         return true
     }
